@@ -1,114 +1,132 @@
 package com.company;
 import java.util.Scanner;
-class Dep{
-    Scanner input=new Scanner(System.in);
-    public void Dep_Display(){
-        int a,i;
+
+class Dep {
+    Scanner input = new Scanner(System.in);
+
+    public void Dep_Display() {
+        int a, i = 0;  // ✅ Initialize 'i' to prevent compilation error
         Department DEP;
-        do{
-        System.out.println("Departments in our Hospital are:1.Cardiology\n2.Neurology\n3.Eye\n4.Dental\n5.ICU/CCU\n6.Lab");
-        System.out.println("See Details Of:");
-        a=input.nextInt();
-        switch (a){
-            case 1:
-                DEP=new Cardialogy_Dep();
-                DEP.dep_info();
-                DEP.Services_available();
-            break;
-            case 2:
-                DEP=new Neurology_Dep();
-                DEP.dep_info();
-                DEP.Services_available();
-            break;
-            case 3:
-                DEP=new Eye_Dep();
-                DEP.dep_info();
-                DEP.Services_available();
-            break;
-            case 4:
-                DEP=new Dentistry_Dep();
-                DEP.dep_info();
-                DEP.Services_available();
-            break;
-            case 5:
-                DEP=new ICU_Dep();
-                DEP.dep_info();
-                DEP.Services_available();
-            break;
-            case 6:
-                DEP=new Lab();
-                DEP.dep_info();
-                DEP.Services_available();
-            break;
-            default:
-                System.out.println("Enter Valid Option From(1,2,3,4,5,6)");
-            break;
-        }
-        System.out.println("To See Department info Again press 1");
-        i= input.nextInt();
-        }while (i==1);
+
+        do {
+            System.out.println("Departments in our Hospital:");
+            System.out.println("1. Cardiology  2. Neurology  3. Eye  4. Dental  5. ICU  6. Lab");
+            System.out.print("See Details Of: ");
+            a = input.nextInt();
+
+            switch (a) {
+                case 1:
+                    DEP = new Cardialogy_Dep();
+                    break;
+                case 2:
+                    DEP = new Neurology_Dep();
+                    break;
+                case 3:
+                    DEP = new Eye_Dep();
+                    break;
+                case 4:
+                    DEP = new Dentistry_Dep();
+                    break;
+                case 5:
+                    DEP = new ICU_Dep();
+                    break;
+                case 6:
+                    DEP = new Lab();
+                    break;
+                default:
+                    System.out.println("Enter a valid option (1-6).");
+                    continue;
+            }
+
+            DEP.showDepartmentDetails();
+
+            // ✅ Ensure 'i' is initialized before checking in the while condition
+            System.out.println("\nTo See Department info Again press 1, otherwise press any other key.");
+            i = input.nextInt();
+        } while (i == 1);
     }
 }
+
+// Abstract Department class with Template Method Pattern
 public abstract class Department {
     public abstract void dep_info();
     public abstract void Services_available();
-}
-class Cardialogy_Dep extends Department{
-    public void dep_info() {
-        System.out.println("It deals with the treatment of Disorders of heart and blood vessesls");
-        System.out.println("This field includes medical diagonosis,treatment of congetial heart defects,heart faliure,valvular heart disease");
+    
+    // Hook method - Can be overridden if needed
+    public void additionalInfo() {
+        // Default implementation does nothing
     }
-    public void Services_available() {
-        System.out.println("Services available are:\n1.Angiography\n2.Heart Surgery\n3.CT of heart\n4.ECG test\n5.BP checkup");
-    }
-}
-class Neurology_Dep extends Department{
-    public void dep_info() {
-        System.out.println("Deals with the study and Treatment of disorders of the nervous system");
-        System.out.println("Diagnosis and treatment of all categories of disease involving central and peripheral nervous system");
-    }
-    public void Services_available() {
-        System.out.println("Facilities available are:\n1.Computed Axial Tomography scans\n2.Magnetic source imaging(MRI)\n3.Ultrasound of major blood vessels of head and neck");
+
+    // Template Method: Defines the standard execution flow
+    public final void showDepartmentDetails() {
+        dep_info();
+        Services_available();
+        additionalInfo();  // Hook method call
     }
 }
-class Dentistry_Dep extends Department{
+
+// Cardiology Department
+class Cardialogy_Dep extends Department {
     public void dep_info() {
-        System.out.println("Deals with the diagnosis,disorders,prevention and treatment of diseases of oral cavity");
+        System.out.println("It deals with the treatment of heart and blood vessel disorders.");
     }
     public void Services_available() {
-        System.out.println("Treatments available are:\n1.Braces\n2.Tooth implant\n3.Bridge of teeth\n4.Tooth extraction\n5.Filling\n6.Scaling and root planting");
+        System.out.println("Services available: Angiography, Heart Surgery, ECG, BP checkup.");
+    }
+    public void additionalInfo() {
+        System.out.println("Equipped with 24/7 Emergency Heart Attack Response Team.");
     }
 }
-class Eye_Dep extends Department{
+
+// Neurology Department
+class Neurology_Dep extends Department {
     public void dep_info() {
-        System.out.println("Ophthamology deals with diagnosis and treatment of eye disorders");
+        System.out.println("Deals with the study and treatment of nervous system disorders.");
     }
     public void Services_available() {
-        System.out.println("Tests For eye available:\n1.Eye examination\n2.OCT scans\n3.Eyesight check\n4.Ultrasonography of eye\n5.Eye surgery");
+        System.out.println("Facilities available: MRI, CT scans, Ultrasound of major blood vessels.");
     }
 }
-class ICU_Dep extends Department{
+
+// Dentistry Department
+class Dentistry_Dep extends Department {
     public void dep_info() {
-        System.out.println("Special department in hospital that provide intensive care medicines");
-        System.out.println("Patients with life threatening illness or injuries who require constant care and supervision and life support equipment");
+        System.out.println("Deals with the diagnosis and treatment of oral diseases.");
     }
     public void Services_available() {
-        System.out.println("ICU or CCU include vey critical operations i-e:\nVentilator(lung Support)\nhemodylasis(Renal support)\nIntra-Aortic(cardiac support)");
+        System.out.println("Treatments: Braces, Tooth Implant, Extraction, Filling, Scaling.");
     }
 }
-class OR extends Department{
+
+// Eye Department
+class Eye_Dep extends Department {
     public void dep_info() {
-        System.out.println("Here Surgical Operations are carried out");
+        System.out.println("Ophthalmology deals with diagnosis and treatment of eye disorders.");
     }
     public void Services_available() {
-        System.out.println("1.Eye surgery\t2.Heart Surgery etc");
+        System.out.println("Tests: Eye Examination, OCT scans, Ultrasonography, Eye Surgery.");
     }
 }
-class Lab extends Department{
+
+// ICU Department (Overrides Hook Method)
+class ICU_Dep extends Department {
     public void dep_info() {
-        System.out.println("Tests are carried out to obtain info about the patient's health to aid in diagnosis,treatment or prevention of disease");
+        System.out.println("Special department providing intensive care medicine.");
     }
     public void Services_available() {
-        System.out.println("Facilities Of lab:\n1.Blood Testing(Complete Blood Picture)\n2.Cholestrol level testing\n3.Liver fat testing\n4.Examination of blood sugar etc");
+        System.out.println("Includes critical operations: Ventilators, Renal support, and Cardiac support.");
+    }
+    public void additionalInfo() {
+        System.out.println("Special Emergency Hotline: 911-ICU");
+    }
+}
+
+// Lab Department
+class Lab extends Department {
+    public void dep_info() {
+        System.out.println("Tests are carried out to diagnose and prevent diseases.");
+    }
+    public void Services_available() {
+        System.out.println("Facilities: Blood Testing, Cholesterol Check, Liver Fat Testing, Blood Sugar Test.");
     }
 }
