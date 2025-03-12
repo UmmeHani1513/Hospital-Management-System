@@ -1,184 +1,113 @@
 package com.company;
-import java.util.ArrayList;
-import java.util.Scanner;
+
 import java.io.File;
-import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
-public abstract class Doctors {
-    public ArrayList<String> Doctor=new ArrayList<String>();
-    public abstract void Bio_Data();
-}
-class ADD_Doctor extends Doctors{
-    private String name,Special,workingHours;
-    private int age,dep;
-    private char gender;
-    double CNIC;
-    Scanner input=new Scanner(System.in);
-    public void Bio_Data(){
+import java.io.IOException;
+import java.util.Scanner;
+
+public class Doctors {
+    public static void addDoctor() {
+        Scanner input = new Scanner(System.in);
+        String name, special, workingHours, department = "";
+        int age, dep;
+        char gender;
+        double CNIC;
+
         System.out.println("Enter Name:");
-        name=input.next();
+        name = input.next();
         System.out.println("Enter CNIC:");
-        CNIC=input.nextDouble();
+        CNIC = input.nextDouble();
         System.out.println("Enter Age:");
-        age=input.nextInt();
+        age = input.nextInt();
         System.out.println("Gender (F/M):");
-        gender=input.next().charAt(0);
+        gender = input.next().charAt(0);
         System.out.println("Working Hours:");
-        workingHours=input.next();
-        Doctor.add("Name:\t"+name);
-        Doctor.add("CNIC:\t"+CNIC);
-        Doctor.add("Age:\t"+age);
-        Doctor.add("Gender:\t"+gender);
-        Doctor.add("Working Hours:\t"+workingHours);
-        System.out.println("Specialization in:\t");
-        Special=input.next();
-        Doctor.add("Specialization in:\t"+Special);
-        System.out.println("Hired in department:\t");
-        System.out.println("1.Cardialogy\n2.Neurology\n3.Eye\n4.Dental\n5.Lab");
-        dep=input.nextInt();
-        switch (dep){
+        workingHours = input.next();
+        System.out.println("Specialization in:");
+        special = input.next();
+        
+        System.out.println("Hired in department:");
+        System.out.println("1. Cardiology\n2. Neurology\n3. Eye\n4. Dental\n5. Lab");
+        dep = input.nextInt();
+
+        String fileName = "";
+        switch (dep) {
             case 1:
-                Doctor.add("Department: Cardialogy");
-                try {
-                    FileWriter g = new FileWriter("Heart_Speacialist.txt",true);
-                    g.write(String.valueOf(Doctor));
-                    System.out.println("Written");
-                    g.close();
-                } catch (IOException e) {
-                    System.out.println("Error ");
-                    e.printStackTrace();
-                }
-            break;
+                department = "Cardiology";
+                fileName = "Heart_Specialist.txt";
+                break;
             case 2:
-                Doctor.add("Department: Neurology");
-                try {
-                    FileWriter g = new FileWriter("Neurologist.txt",true);
-                    g.write(String.valueOf(Doctor));
-                    System.out.println("Written");
-                    g.close();
-                } catch (IOException e) {
-                    System.out.println("Error ");
-                    e.printStackTrace();
-                }
-            break;
+                department = "Neurology";
+                fileName = "Neurologist.txt";
+                break;
             case 3:
-                Doctor.add("Department: Eye");
-                try {
-                    FileWriter g = new FileWriter("Eye_Specialist.txt",true);
-                    g.write(String.valueOf(Doctor));
-                    System.out.println("Written");
-                    g.close();
-                } catch (IOException e) {
-                    System.out.println("Error ");
-                    e.printStackTrace();
-                }
-            break;
+                department = "Eye";
+                fileName = "Eye_Specialist.txt";
+                break;
             case 4:
-                Doctor.add("Department: Dental");
-                try {
-                    FileWriter g = new FileWriter("Dentist.txt",true);
-                    g.write(String.valueOf(Doctor));
-                    System.out.println("Written");
-                    g.close();
-                } catch (IOException e) {
-                    System.out.println("Error ");
-                    e.printStackTrace();
-                }
-            break;
+                department = "Dental";
+                fileName = "Dentist.txt";
+                break;
             case 5:
-                Doctor.add("Department: Lab");
-                try {
-                    FileWriter g = new FileWriter("Lab_Doctors.txt",true);
-                    g.write(String.valueOf(Doctor));
-                    System.out.println("Written");
-                    g.close();
-                } catch (IOException e) {
-                    System.out.println("Error ");
-                    e.printStackTrace();
-                }
-            break;
+                department = "Lab";
+                fileName = "Lab_Doctors.txt";
+                break;
             default:
-                System.out.println("Enter From 1,2,3,4 or 5");
-            break;
+                System.out.println("Invalid department selection.");
+                return;
+        }
+
+        String doctorData = "Name: " + name + "\n" +
+                "CNIC: " + CNIC + "\n" +
+                "Age: " + age + "\n" +
+                "Gender: " + gender + "\n" +
+                "Working Hours: " + workingHours + "\n" +
+                "Specialization: " + special + "\n" +
+                "Department: " + department + "\n\n";
+
+        try (FileWriter writer = new FileWriter(fileName, true)) {
+            writer.write(doctorData);
+            System.out.println("Doctor information saved successfully.");
+        } catch (IOException e) {
+            System.out.println("Error writing to file.");
+            e.printStackTrace();
         }
     }
-}
-class view_Doctor{
-    Scanner input=new Scanner(System.in);
-    public void display(){
-        int a;
-        System.out.println("View Doctor list of:\n1.Cardialogy\n2.Neurology\n3.Eye\n4.Dental\n5.Lab");
-        a=input.nextInt();
-        switch (a){
-            case 1:{
-                try {
-                    File myObj=new File("Heart_Speacialist.txt");
-                    Scanner myReader=new Scanner(myObj);
-                    while(myReader.hasNextLine()){
-                        String data= myReader.nextLine();
-                        System.out.println(data);
-                    }
-                    myReader.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                break;}
-            case 2:{
-                try {
-                    File myObj=new File("Neurologist.txt");
-                    Scanner myReader=new Scanner(myObj);
-                    while(myReader.hasNextLine()){
-                        String data= myReader.nextLine();
-                        System.out.println(data);
-                    }
-                    myReader.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                break;}
-            case 3:{
-                try {
-                    File myObj=new File("Eye_Specialist.txt");
-                    Scanner myReader=new Scanner(myObj);
-                    while(myReader.hasNextLine()){
-                        String data= myReader.nextLine();
-                        System.out.println(data);
-                    }
-                    myReader.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                break;}
-            case 4:{
-                try {
-                    File myObj=new File("Dentist.txt");
-                    Scanner myReader=new Scanner(myObj);
-                    while(myReader.hasNextLine()){
-                        String data= myReader.nextLine();
-                        System.out.println(data);
-                    }
-                    myReader.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                break;}
-            case 5:{
-                try {
-                    File myObj=new File("Lab_Doctors.txt");
-                    Scanner myReader=new Scanner(myObj);
-                    while(myReader.hasNextLine()){
-                        String data= myReader.nextLine();
-                        System.out.println(data);
-                    }
-                    myReader.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                break;}
-            default:
-                System.out.println("Enter From 1,2,3,4 or 5");
+
+    public static void viewDoctors() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("View Doctor list of:\n1. Cardiology\n2. Neurology\n3. Eye\n4. Dental\n5. Lab");
+        int choice = input.nextInt();
+        String fileName = "";
+
+        switch (choice) {
+            case 1:
+                fileName = "Heart_Specialist.txt";
                 break;
+            case 2:
+                fileName = "Neurologist.txt";
+                break;
+            case 3:
+                fileName = "Eye_Specialist.txt";
+                break;
+            case 4:
+                fileName = "Dentist.txt";
+                break;
+            case 5:
+                fileName = "Lab_Doctors.txt";
+                break;
+            default:
+                System.out.println("Invalid choice.");
+                return;
+        }
+
+        try (Scanner fileReader = new Scanner(new File(fileName))) {
+            while (fileReader.hasNextLine()) {
+                System.out.println(fileReader.nextLine());
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("No records found for the selected department.");
         }
     }
 }

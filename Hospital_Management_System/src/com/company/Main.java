@@ -33,18 +33,16 @@ public class Main {
                         x.Dep_Display();
                         break;
                     case 3:
-                        Pharmacy p = new Pharmacy();
-                        p.display();
+                        Pharmacy.main(new String[]{});  // Call Pharmacy main method
                         break;
                     default:
-                        System.out.println("Enter Valid Option From (1,2,or 3");
+                        System.out.println("Enter Valid Option From (1,2,or 3)");
                         break;
                 }
                 System.out.println("To Exit System Press 1");
                 y = input.nextInt();
             } while (y != 1);
-        }
-        else{
+        } else {
             System.out.println("***WRONG!!!!!!!USER NAME OR PASSWORD*****");
         }
     }
