@@ -1,0 +1,22 @@
+# SonarQube project settings
+sonar.projectKey=Hospital-Management-System
+sonar.projectName=Hospital Management System
+sonar.projectVersion=1.0
+
+# Path to the source code
+sonar.sources=src
+
+# Path to the compiled classes
+sonar.java.binaries=bin
+
+# Character encoding for source files
+sonar.sourceEncoding=UTF-8
+
+# Authentication token for SonarQube
+sonar.token=sqa_c285eaa04fed364897d97126273a9e4ef070a508
+
+# SonarQube server URL
+sonar.host.url=http://localhost:9000
+
+# Specify the branch name (e.g., feature-branch)
+sonar.branch.name=1b_
