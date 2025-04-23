@@ -2,10 +2,22 @@ package com.company;
 
 import java.util.Scanner;
 
-// Abstract class for Departments
+// Abstract class using Template Method pattern
 public abstract class Department {
-    public abstract void dep_info();
-    public abstract void Services_available();
+    // Template Method
+    public final void showDepartmentDetails() {
+        dep_info();
+        Services_available();
+        additionalInfo(); // Hook method
+    }
+
+    protected abstract void dep_info();
+    protected abstract void Services_available();
+
+    // Hook method - optional for subclasses
+    protected void additionalInfo() {
+        // Default implementation does nothing
+    }
 }
 
 // Enum for department types
@@ -18,22 +30,29 @@ enum DepartmentType {
     LAB
 }
 
-// Factory class using enum
+// Factory class to create department objects
 class DepartmentFactory {
     public static Department getDepartment(DepartmentType type) {
         switch (type) {
-            case CARDIOLOGY: return new Cardialogy_Dep();
-            case NEUROLOGY: return new Neurology_Dep();
-            case EYE: return new Eye_Dep();
-            case DENTAL: return new Dentistry_Dep();
-            case ICU: return new ICU_Dep();
-            case LAB: return new Lab();
-            default: return null;
+            case CARDIOLOGY:
+                return new Cardiology_Dep();
+            case NEUROLOGY:
+                return new Neurology_Dep();
+            case EYE:
+                return new Eye_Dep();
+            case DENTAL:
+                return new Dentistry_Dep();
+            case ICU:
+                return new ICU_Dep();
+            case LAB:
+                return new Lab();
+            default:
+                return null;
         }
     }
 }
 
-// UI class that uses the factory and enum
+// UI class for department interaction
 class Dep {
     Scanner input = new Scanner(System.in);
 
@@ -51,9 +70,8 @@ class Dep {
 
             if (choice >= 1 && choice <= values.length) {
                 DepartmentType selected = values[choice - 1];
-                Department DEP = DepartmentFactory.getDepartment(selected);
-                DEP.dep_info();
-                DEP.Services_available();
+                Department dep = DepartmentFactory.getDepartment(selected);
+                dep.showDepartmentDetails(); // Using Template Method
             } else {
                 System.out.println("Enter Valid Option From 1 to " + values.length);
             }
@@ -69,62 +87,85 @@ class Dep {
 }
 
 // Department Implementations
-class Cardialogy_Dep extends Department {
-    public void dep_info() {
+
+class Cardiology_Dep extends Department {
+    @Override
+    protected void dep_info() {
         System.out.println("It deals with the treatment of disorders of heart and blood vessels...");
     }
 
-    public void Services_available() {
+    @Override
+    protected void Services_available() {
         System.out.println("Services: Angiography, Heart Surgery, CT of heart, ECG, BP checkup");
+    }
+
+    @Override
+    protected void additionalInfo() {
+        System.out.println("Specialized emergency services available 24/7.");
     }
 }
 
 class Neurology_Dep extends Department {
-    public void dep_info() {
+    @Override
+    protected void dep_info() {
         System.out.println("Deals with disorders of the nervous system...");
     }
 
-    public void Services_available() {
+    @Override
+    protected void Services_available() {
         System.out.println("Services: CAT scans, MRI, Ultrasound of major blood vessels");
     }
 }
 
 class Eye_Dep extends Department {
-    public void dep_info() {
+    @Override
+    protected void dep_info() {
         System.out.println("Ophthalmology deals with eye disorders...");
     }
 
-    public void Services_available() {
+    @Override
+    protected void Services_available() {
         System.out.println("Services: Eye examination, OCT, Eye surgery, etc.");
     }
 }
 
 class Dentistry_Dep extends Department {
-    public void dep_info() {
+    @Override
+    protected void dep_info() {
         System.out.println("Diagnosis and treatment of oral diseases...");
     }
 
-    public void Services_available() {
+    @Override
+    protected void Services_available() {
         System.out.println("Services: Braces, Tooth implant, Extraction, Filling, Scaling");
     }
 }
 
 class ICU_Dep extends Department {
-    public void dep_info() {
+    @Override
+    protected void dep_info() {
         System.out.println("Specialized care for critically ill patients...");
     }
 
-    public void Services_available() {
+    @Override
+    protected void Services_available() {
         System.out.println("Services: Ventilation, Dialysis, Cardiac support");
+    }
+
+    @Override
+    protected void additionalInfo() {
+        System.out.println("Advanced life-support equipment and continuous monitoring.");
     }
 }
 
 class Lab extends Department {
-    public void dep_info() {
+    @Override
+    protected void dep_info() {
         System.out.println("Diagnostic testing for treatment and prevention...");
     }
 
-    public void Services_available() {
+    @Override
+    protected void Services_available() {
         System.out.println("Services: Blood tests, Cholesterol, Liver fat, Blood sugar");
     }
 }
